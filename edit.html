@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Meal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <section id="edit" class="layout">
+        <h1 class="layout-header">Edit Meal</h1>
+        <form id="form" enctype="multipart/form-data">
+            <div class="div-control">
+                <input type="hidden" name="id" id="id">
+            </div>
+            <div class="div-control">
+                <label for="name">Name</label><br>
+                <input type="text" name="strMeal" id="name">
+            </div>
+            <div class="edit btn-div-control">
+                <button type="submit" class="submit-control">Update</button>
+            </div>
+        </form>
+    </section>
+</body>
+<script>
+    const id = new URLSearchParams(window.location.search).get('id');
+    const getData = async(user)=>{
+        const api = await fetch(`http://localhost:5000/meals/${id}`);
+        const data = await api.json();
+        console.log(data);
+        document.getElementById('id').value=data.id;
+        document.getElementById('name').value=data.strMeal;
+    }
+
+    // when user add update, this will work 
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let strMeal = form.strMeal.value;
+        let id = form.id.value;
+        updateMeal(id,strMeal);
+   })
+
+   const updateMeal = async(id,strMeal)=>{
+    // console.log(JSON.stringify({strMeal}));
+    const api = await fetch(`http://localhost:5000/meals/${id}`,{
+        "method" : "PATCH",
+        "headers" : {
+            "Content-Type": "application/json", 
+        },
+        "body" : JSON.stringify({strMeal})
+    })
+    const data = await api.json()
+    window.location.href=`http://127.0.0.1:5500/detail.html?id=${id}`;
+   }
+
+    getData()
+</script>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <section id="register" class="layout">
+        <h1 class="layout-header">Register</h1>
+        <form id="form">
+            <div class="div-control">
+                <label for="name">Name</label><br>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="div-control">
+                <label for="email">Email</label><br>
+                <input type="email" name="email" id="email">
+            </div>
+            <div class="div-control">
+                <label for="password">Password</label><br>
+                <input type="password" name="password" id="password">
+            </div>
+            Already have an account? <a href="/login.html">Log in</a>
+            <div class="register btn-div-control">
+                <button type="submit" class="submit-control">Register</button>
+            </div>
+        </form>
+    </section>
+</body>
+<script>
+    const createData = async(user)=>{
+        const api = await fetch("http://localhost:3000/users",{
+            method:"POST",
+            headers:{
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin":'*',
+            },
+            body : JSON.stringify(user)
+        });
+        const data = await api.json();
+    }
+
+    let form = document.getElementById('form');
+   form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let name = form.name.value;
+        let email = form.email.value;
+        let password = form.password.value;
+        if(name && email && password){
+            createData({name,email,password})
+            localStorage.setItem("user-info",JSON.stringify({name,email}))
+            window.location.href="http://127.0.0.1:5500/index.html";
+        }else{
+            alert("Fill all");
+        }
+   })
+</script>
+</html>

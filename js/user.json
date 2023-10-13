@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "name": "kyaw",
+      "email": "hetero226@gmail.com",
+      "password": "kyawkyawhein",
+      "id": 1
+    },
+    {
+      "name": "hein",
+      "email": "hein3@gmail.com",
+      "password": "kyawkyaw",
+      "id": 2
+    },
+    {
+      "name": "myo",
+      "email": "myo2@gmail.com",
+      "password": "kyaw",
+      "id": 3
+    }
+  ]
+}

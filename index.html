@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <section id="home">
+        <nav>
+            <h1 class="nav-title"><a href="/">Slaky</a></h1>
+            
+            <div class="nav-item-container md-view">
+               
+            </div>
+            <div class="menu-burger sm-view">
+                <img src="img/menu-burger.png" id="burgerImg" class="" alt="">
+            </div>
+        </nav>
+        <div id="burgerNav" >
+            <div id="navItemContainer" class="nav-item-container">
+               
+            </div>
+        </div>
+
+        <div class="body" id="body">
+            
+        </div>
+    </section>
+    <!-- <script src="js/action.js"></script> -->
+    <script src="js/app.js"></script>
+    <script>
+        // products();
+        window.onload=()=>{
+            products();
+        }
+
+        let body = document.getElementById('body');
+        const products = async()=>{
+            const api = await fetch("http://localhost:5000/meals");
+            const meals = await api.json();
+            meals.reverse().slice(0,20).map(function(product,index){
+                body.innerHTML+= `
+                    <div class="card">
+                        <img src="${product.strMealThumb}" class="card-img" alt="">
+                        <h1>${product.strMeal}</h1>
+                        <button class="detail-btn"><a href="detail.html?id=${product.id}">Detail</a></button>
+                    </div>
+                `
+            })
+        }
+    </script>
+</body>
+</html>

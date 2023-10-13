@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/detail.css">
+</head>
+<body>    
+    <nav>
+        <h1 class="nav-title"><a href="/">Slaky</a></h1>
+        
+        <div id="navItemContainer">
+           
+        </div>
+        <div id="menuBurger">
+            <img src="img/menu-burger.png" alt="">
+        </div>
+    </nav>
+        
+    <div id="detail">
+        
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        const id = new URLSearchParams(window.location.search).get('id');
+        const detail = document.getElementById('detail');
+        let filterObj;
+        const filterProduct = async()=>{
+            const api = await fetch("http://localhost:5000/meals");
+            const data = await api.json();
+            [meal]= data.filter((meal)=>meal.id==id);
+            console.log(meal);
+            detail.innerHTML = `
+                <img src="${meal.strMealThumb}"class="img" alt="">                
+                <div>
+                    <h1 class="title">${meal.strMeal}</h1>
+                    <div class="btn-container">
+                        <button class="btn edit"><a href="edit.html?id=${meal.id}">Edit</a></button>    
+                        <button class="btn delete" onclick="delMeal(meal)">Delete</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        const delMeal = async(meal)=>{
+            if(confirm(`Are you sure to delete this ${meal.strMeal}?`)){
+                const api = await fetch(`http://localhost:5000/meals/${meal.id}`,{
+                    method:"DELETE",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin":'*',
+                    },
+                    body : JSON.stringify(meal)
+                });
+                const data = await api.json();
+                console.log(data);
+                window.location.href="http://127.0.0.1:5500/index.html";
+            }
+        }
+
+        filterProduct()
+    </script>
+</body>
+</html>
